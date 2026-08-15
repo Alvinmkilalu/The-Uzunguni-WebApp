@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 export default function StaffShell({ children, role, name }: { children: React.ReactNode; role: "ADMIN" | "WAITER"; name: string }) {
   const path = usePathname(); const router = useRouter();
   const links = role === "ADMIN"
-    ? [["/admin", "▦", "Overview"], ["/admin/employees", "♙", "Employees"], ["/admin/tables", "⌗", "Table QR codes"]]
+    ? [["/admin", "▦", "Overview"], ["/admin/employees", "♙", "Employees"], ["/admin/menu", "☷", "Menu"], ["/admin/tables", "⌗", "Table QR codes"]]
     : [["/waiter", "▦", "My tables"]];
   async function logout() { await createClient().auth.signOut(); router.replace("/login"); router.refresh(); }
   return <div className="ops-shell">
