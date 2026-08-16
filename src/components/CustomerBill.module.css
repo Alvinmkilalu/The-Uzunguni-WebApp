@@ -25,15 +25,6 @@
   letter-spacing: 1.5px;
 }
 
-.top span {
-  font-size: 8px;
-  color: #286b50;
-  background: #f0f5f2;
-  border: 1px solid #d9e7df;
-  border-radius: 12px;
-  padding: 4px 6px;
-}
-
 .top small {
   grid-column: 1 / -1;
   font-size: 7px;

@@ -738,7 +738,6 @@ function Top({ table }: { table: string }) {
   return (
     <header className={styles.top}>
       <b>UZUNGUNI</b>
-      <span>● EN · Secure</span>
       <small>{table} · City Park</small>
     </header>
   );
