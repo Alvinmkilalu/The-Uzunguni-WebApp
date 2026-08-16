@@ -119,7 +119,7 @@ export async function POST(request: Request) {
     const admin = createAdminClient();
 
     const { data, error } = await admin.rpc(
-      "create_customer_payment_intent",
+      "create_customer_payment_intent_v2",
       {
         p_qr_token: String(body.qrToken || ""),
         p_request_id: String(body.requestId),
