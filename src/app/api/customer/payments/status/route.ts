@@ -1,14 +1,22 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { queryClickPesa } from "@/lib/payments/clickpesa";
+import { accessContext } from "@/lib/security/customerAccess";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const access = accessContext(request);
+
+  if (!access) {
+    return NextResponse.json(
+      { error: "Customer access has expired." },
+      { status: 401 },
+    );
+  }
+
   const url = new URL(request.url);
-
   const intentId = url.searchParams.get("intentId");
-  const qrToken = url.searchParams.get("qrToken");
 
-  if (!intentId || !qrToken) {
+  if (!intentId) {
     return NextResponse.json(
       { error: "Missing payment reference." },
       { status: 400 },
@@ -16,11 +24,11 @@ export async function GET(request: Request) {
   }
 
   const admin = createAdminClient();
-
   const visible = await admin.rpc(
-    "customer_payment_intent_status",
+    "customer_payment_intent_status_v2",
     {
-      p_qr_token: qrToken,
+      p_access_hash: access.accessHash,
+      p_device_hash: access.deviceHash,
       p_intent_id: intentId,
     },
   );
@@ -82,9 +90,7 @@ export async function GET(request: Request) {
               p_order_reference: result.order_reference,
               p_provider_reference:
                 provider.paymentReference || provider.id,
-              p_collected_amount: Number(
-                provider.collectedAmount,
-              ),
+              p_collected_amount: Number(provider.collectedAmount),
             },
           );
 
@@ -112,7 +118,7 @@ export async function GET(request: Request) {
           };
         }
       } catch {
-        // Keep it pending. A verified webhook may still confirm it.
+        // Keep pending; a signed webhook can still confirm it.
       }
     }
   }
