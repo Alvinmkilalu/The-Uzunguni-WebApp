@@ -15,8 +15,8 @@
   background:
     linear-gradient(
       135deg,
-      rgba(27, 23, 21, 0.34),
-      rgba(37, 2, 5, 0.34)
+      rgba(27, 23, 21, 0.67),
+      rgba(37, 2, 5, 0.67)
     ),
     url("/images/login-background.jpg");
 
