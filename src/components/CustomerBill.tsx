@@ -23,7 +23,7 @@ export default function CustomerBill(){
   const[splitType,setSplitType]=useState<SplitType>("FULL"),[people,setPeople]=useState(3),[selectedItems,setSelectedItems]=useState<string[]>([]);
   const[customAmount,setCustomAmount]=useState(""),[method,setMethod]=useState<string>("MPESA"),[phone,setPhone]=useState("");
   const[intentId,setIntentId]=useState<string|null>(null),[reference,setReference]=useState(""),[maskedPhone,setMaskedPhone]=useState("");
-  const[paidAmount,setPaidAmount]=useState(0),[error,setError]=useState(""),[submitting,setSubmitting]=useState(false);
+  const[requestedAmount,setRequestedAmount]=useState(0),[paidAmount,setPaidAmount]=useState(0),[error,setError]=useState(""),[submitting,setSubmitting]=useState(false);
 
   const loadBill=useCallback(async()=>{const response=await fetch("/api/customer/bill",{cache:"no-store"});if(!response.ok){setBill(null);setLoading(false);return}setBill(await response.json() as Bill);setLoading(false)},[]);
   useEffect(()=>{void loadBill();const timer=window.setInterval(()=>void loadBill(),5000);return()=>window.clearInterval(timer)},[loadBill]);
@@ -38,22 +38,23 @@ export default function CustomerBill(){
   async function startPayment(){
     if(!amount||amount<1||amount>remaining){setError(`Enter an amount between TZS 1 and ${money(remaining)}.`);return}
     if(splitType==="ITEM"&&!selectedItems.length){setError("Select at least one available item.");return}
+    const paymentAmount=amount;
     setSubmitting(true);setError("");
-    const response=await fetch("/api/customer/payments",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requestId:crypto.randomUUID(),splitType,amount,method,phone,itemIds:splitType==="ITEM"?selectedItems:[]})});
+    const response=await fetch("/api/customer/payments",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({requestId:crypto.randomUUID(),splitType,amount:paymentAmount,method,phone,itemIds:splitType==="ITEM"?selectedItems:[]})});
     const result=await response.json();setSubmitting(false);
     if(!response.ok){setError(result.error||"The payment request could not be sent.");return}
-    setIntentId(result.intentId);setMaskedPhone(result.maskedPhone);go("waiting");
+    setRequestedAmount(paymentAmount);setIntentId(result.intentId);setMaskedPhone(result.maskedPhone);go("waiting");
   }
 
   useEffect(()=>{
     if(step!=="waiting"||!intentId)return;let stopped=false,attempts=0;
     const check=async()=>{attempts++;const response=await fetch(`/api/customer/payments/status?intentId=${encodeURIComponent(intentId)}`,{cache:"no-store"});const result=await response.json();if(stopped)return;
-      if(result.status==="PAID"){setReference(result.reference||"");setPaidAmount(result.amount||amount);await loadBill();go("success");return}
+      if(result.status==="PAID"){setReference(result.reference||"");setPaidAmount(result.amount||requestedAmount);await loadBill();go("success");return}
       if(["FAILED","EXPIRED","CANCELLED"].includes(result.status)){setError(result.message||"Payment was not completed. No money was recorded.");setStep("phone");return}
       if(attempts>=60){setError("Confirmation is taking longer than expected. You can check again or retry safely.");setStep("phone");return}
       window.setTimeout(check,3000)};
     const timer=window.setTimeout(check,1500);return()=>{stopped=true;window.clearTimeout(timer)};
-  },[step,intentId,amount,loadBill]);
+  },[step,intentId,requestedAmount,loadBill]);
 
   if(loading)return <main className={styles.phone}><div className={styles.center}>Checking this table securely...</div></main>;
   if(!bill)return <main className={styles.phone}><Empty title="QR not recognised" text="Please scan the QR label fixed to your table again."/></main>;
@@ -74,13 +75,13 @@ export default function CustomerBill(){
 
     {step==="phone"&&<Screen back={()=>go("provider")} eyebrow={`${selectedProvider.name.toUpperCase()} · ${money(amount)}`} title="Enter your phone number"><div className={styles.promptCard}><span className={styles.providerIcon}>{selectedProvider.initials}</span><div><b>{selectedProvider.name}</b><small>A secure approval prompt will be sent to this phone.</small></div></div><label className={styles.phoneInput}>Mobile-money number<input value={phone} onChange={e=>setPhone(e.target.value)} inputMode="tel" autoComplete="tel" placeholder="0712 345 678"/></label><div className={styles.securityBox}><b>🔒 Your PIN stays private</b><span>Enter your wallet PIN only in the secure prompt displayed by your mobile network. Uzunguni never asks for or stores it.</span></div>{error&&<p className={styles.error}>⚠ {error}</p>}<StickyButton disabled={submitting||phone.replace(/\D/g,"").length<9} onClick={startPayment}>{submitting?"Sending securely...":`Send ${selectedProvider.name} prompt`}</StickyButton></Screen>}
 
-    {step==="waiting"&&<Screen eyebrow="PAYMENT PENDING" title="Check your phone"><div className={styles.waitingIcon}><span/></div><h2 className={styles.centerTitle}>Approve {money(amount)}</h2><p className={styles.centerText}>A {selectedProvider.name} prompt was sent to <b>{maskedPhone}</b>. Enter your PIN in that provider prompt, not on this website.</p><div className={styles.pendingBox}><span className={styles.pulse}/><div><b>Waiting for provider confirmation...</b><small>The bill updates only after the provider confirms the payment.</small></div></div><p className={styles.help}>Do not refresh or send another payment while this request is pending.</p></Screen>}
+    {step==="waiting"&&<Screen eyebrow="PAYMENT PENDING" title="Check your phone"><div className={styles.waitingIcon}><span/></div><h2 className={styles.centerTitle}>Approve {money(requestedAmount)}</h2><p className={styles.centerText}>A {selectedProvider.name} prompt was sent to <b>{maskedPhone}</b>. Enter your PIN in that provider prompt, not on this website.</p><div className={styles.pendingBox}><span className={styles.pulse}/><div><b>Waiting for provider confirmation...</b><small>The bill updates only after the provider confirms the payment.</small></div></div><p className={styles.help}>Do not refresh or send another payment while this request is pending.</p></Screen>}
 
-    {step==="success"&&<Screen eyebrow="SERVER VERIFIED" title="Payment received"><div className={styles.successIcon}>✓</div><div className={styles.receipt}><div><span>Amount paid</span><b>{money(paidAmount)}</b></div><div><span>Method</span><b>{selectedProvider.name}</b></div><div><span>Reference</span><b>{reference}</b></div><div><span>Remaining on bill</span><b>{money(remaining)}</b></div><em>✓ {remaining===0?"Paid in full":"Partially paid"}</em></div><div className={styles.successActions}><button onClick={()=>window.print()}>▤ Receipt</button><button onClick={()=>{setIntentId(null);setSelectedItems([]);setCustomAmount("");go("bill")}}>Done</button></div></Screen>}
+    {step==="success"&&<Screen eyebrow="SERVER VERIFIED" title="Payment received"><div className={styles.successIcon}>✓</div><div className={styles.receipt}><div><span>Amount paid</span><b>{money(paidAmount)}</b></div><div><span>Method</span><b>{selectedProvider.name}</b></div><div><span>Reference</span><b>{reference}</b></div><div><span>Remaining on bill</span><b>{money(remaining)}</b></div><em>✓ {remaining===0?"Paid in full":"Partially paid"}</em></div><div className={styles.successActions}><button onClick={()=>window.print()}>▤ Receipt</button><button onClick={()=>{setIntentId(null);setRequestedAmount(0);setSelectedItems([]);setCustomAmount("");go("bill")}}>Done</button></div></Screen>}
   </main>
 }
 
-function Top({table}:{table:string}){return <header className={styles.top}><b>UZUNGUNI</b><small>{table} · City Park</small></header>}
+function Top({table}:{table:string}){return <header className={styles.top}><b>UZUNGUNI</b><span>● EN · Secure</span><small>{table} · City Park</small></header>}
 function Screen({eyebrow,title,back,children}:{eyebrow:string;title:string;back?:()=>void;children:React.ReactNode}){return <section className={styles.screen}>{back&&<button className={styles.back} onClick={back} aria-label="Go back">‹</button>}<p className={styles.eyebrow}>{eyebrow}</p><h1>{title}</h1><div className={styles.rule}/>{children}</section>}
 function Choice({title,text,icon,selected,onClick,children}:{title:string;text:string;icon:string;selected?:boolean;onClick:()=>void;children?:React.ReactNode}){return <button className={`${styles.choice} ${selected?styles.choiceSelected:""}`} onClick={onClick}><span className={styles.choiceIcon}>{icon}</span><span><b>{title}</b><small>{text}</small></span><i>{selected?"●":"○"}</i>{children}</button>}
 function StickyButton({children,onClick,disabled}:{children:React.ReactNode;onClick:()=>void;disabled?:boolean}){return <div className={styles.sticky}><button disabled={disabled} onClick={onClick}>{children}</button></div>}
