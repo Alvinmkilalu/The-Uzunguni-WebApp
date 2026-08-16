@@ -662,3 +662,29 @@
     min-height: auto;
   }
 }
+/* Keep the customer payment button visible on phones */
+@media (max-width: 700px) {
+  .phone {
+    min-height: 100dvh;
+  }
+
+  .screen {
+    min-height: calc(100dvh - 78px);
+    padding-bottom: 118px;
+  }
+
+  .sticky {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    z-index: 50;
+  }
+
+  .sticky button {
+    box-shadow: 0 8px 26px rgba(33, 27, 23, 0.22);
+  }
+}
