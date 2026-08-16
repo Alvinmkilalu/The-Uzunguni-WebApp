@@ -80,7 +80,7 @@ export default function CustomerBill(){
   </main>
 }
 
-function Top({table}:{table:string}){return <header className={styles.top}><b>UZUNGUNI</b><span>● EN · Secure</span><small>{table} · City Park</small></header>}
+function Top({table}:{table:string}){return <header className={styles.top}><b>UZUNGUNI</b><small>{table} · City Park</small></header>}
 function Screen({eyebrow,title,back,children}:{eyebrow:string;title:string;back?:()=>void;children:React.ReactNode}){return <section className={styles.screen}>{back&&<button className={styles.back} onClick={back} aria-label="Go back">‹</button>}<p className={styles.eyebrow}>{eyebrow}</p><h1>{title}</h1><div className={styles.rule}/>{children}</section>}
 function Choice({title,text,icon,selected,onClick,children}:{title:string;text:string;icon:string;selected?:boolean;onClick:()=>void;children?:React.ReactNode}){return <button className={`${styles.choice} ${selected?styles.choiceSelected:""}`} onClick={onClick}><span className={styles.choiceIcon}>{icon}</span><span><b>{title}</b><small>{text}</small></span><i>{selected?"●":"○"}</i>{children}</button>}
 function StickyButton({children,onClick,disabled}:{children:React.ReactNode;onClick:()=>void;disabled?:boolean}){return <div className={styles.sticky}><button disabled={disabled} onClick={onClick}>{children}</button></div>}
