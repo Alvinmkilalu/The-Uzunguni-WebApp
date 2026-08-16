@@ -1,7 +1,11 @@
 import { createHmac } from "crypto";
-import { NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { NextRequest, NextResponse } from "next/server";
 import { initiateClickPesa } from "@/lib/payments/clickpesa";
+import {
+  accessContext,
+  requestIpHash,
+} from "@/lib/security/customerAccess";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const methods = [
   "MPESA",
@@ -38,8 +42,20 @@ function errorMessage(error: unknown) {
     : "The payment request could not be sent.";
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    const access = accessContext(request);
+
+    if (!access) {
+      return NextResponse.json(
+        {
+          error:
+            "Customer access has expired. Ask the waiter to open QR access, then scan the table QR again.",
+        },
+        { status: 401 },
+      );
+    }
+
     const body = await request.json();
     const phone = normalizePhone(String(body.phone || ""));
 
@@ -67,9 +83,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (
-      !/^[0-9a-f-]{36}$/i.test(String(body.requestId || ""))
-    ) {
+    if (!/^[0-9a-f-]{36}$/i.test(String(body.requestId || ""))) {
       return NextResponse.json(
         { error: "Invalid payment request. Please try again." },
         { status: 400 },
@@ -91,7 +105,7 @@ export async function POST(request: Request) {
 
     if (
       mode === "clickpesa" &&
-      ["SELCOM_PESA", "AZAMPESA"].includes(body.method)
+      ["SELCOM_PESA", "AZAMPESA"].includes(String(body.method))
     ) {
       return NextResponse.json(
         {
@@ -107,9 +121,7 @@ export async function POST(request: Request) {
       process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!hashKey) {
-      throw new Error(
-        "PAYMENT_PHONE_HASH_SECRET is not configured.",
-      );
+      throw new Error("PAYMENT_PHONE_HASH_SECRET is not configured.");
     }
 
     const phoneHash = createHmac("sha256", hashKey)
@@ -117,20 +129,35 @@ export async function POST(request: Request) {
       .digest("hex");
 
     const admin = createAdminClient();
+    const rateLimit = await admin.rpc("check_security_rate_limit", {
+      p_scope: "payment-start",
+      p_key: `${requestIpHash(request)}:${access.accessHash.slice(0, 16)}`,
+      p_limit: 8,
+      p_window_seconds: 60,
+    });
+
+    if (rateLimit.error || rateLimit.data !== true) {
+      return NextResponse.json(
+        {
+          error:
+            "Too many payment attempts. Wait one minute before trying again.",
+        },
+        { status: 429 },
+      );
+    }
 
     const { data, error } = await admin.rpc(
       "create_customer_payment_intent_v2",
       {
-        p_qr_token: String(body.qrToken || ""),
+        p_access_hash: access.accessHash,
+        p_device_hash: access.deviceHash,
         p_request_id: String(body.requestId),
         p_split_type: String(body.splitType),
         p_amount: amount,
         p_method: String(body.method),
         p_phone_hash: phoneHash,
         p_phone_last4: phone.slice(-4),
-        p_item_ids: Array.isArray(body.itemIds)
-          ? body.itemIds
-          : [],
+        p_item_ids: Array.isArray(body.itemIds) ? body.itemIds : [],
       },
     );
 
@@ -164,15 +191,14 @@ export async function POST(request: Request) {
         );
       }
 
-      const marked = await admin.rpc(
-        "mark_payment_intent_sent",
-        {
-          p_intent_id: intent.intent_id,
-          p_provider_reference: providerReference,
-        },
-      );
+      const marked = await admin.rpc("mark_payment_intent_sent", {
+        p_intent_id: intent.intent_id,
+        p_provider_reference: providerReference,
+      });
 
-      if (marked.error) throw marked.error;
+      if (marked.error) {
+        throw marked.error;
+      }
     } catch (providerError) {
       await admin.rpc("fail_payment_intent", {
         p_order_reference: intent.order_reference,
