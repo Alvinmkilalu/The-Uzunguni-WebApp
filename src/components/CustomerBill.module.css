@@ -21,14 +21,14 @@
 
 .top b {
   font-family: Georgia, serif;
-  font-size: 12px;
+  font-size: 20px;
   letter-spacing: 1.5px;
 }
 
 .top small {
   grid-column: 1 / -1;
-  font-size: 7px;
-  letter-spacing: 0.8px;
+  font-size: 18px;
+  letter-spacing: 0.9px;
   color: #5d5d67;
   margin-top: 8px;
   text-transform: uppercase;
@@ -53,7 +53,7 @@
   margin: 0;
   color: #5d5d67;
   font-weight: 700;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 0.9px;
 }
 
@@ -116,14 +116,14 @@
 .billItem strong,
 .selectItem b,
 .selectItem strong {
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .billItem small,
 .selectItem small,
 .providers small,
 .promptCard small {
-  font-size: 8px;
+  font-size: 12px;
   color: #777780;
 }
 
@@ -139,7 +139,7 @@
   display: flex;
   justify-content: space-between;
   gap: 15px;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .totals span,
@@ -154,7 +154,7 @@
 }
 
 .remaining span {
-  font-size: 7px;
+  font-size: 10px;
   letter-spacing: 0.7px;
 }
 
@@ -164,7 +164,7 @@
 }
 
 .live {
-  font-size: 7px;
+  font-size: 10px;
   color: #777780;
 }
 
@@ -185,7 +185,7 @@
   border-radius: 9px;
   background: #a30b10;
   color: #fff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -220,7 +220,7 @@
   display: grid;
   place-items: center;
   font-style: normal;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -230,11 +230,11 @@
 }
 
 .choice b {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .choice small {
-  font-size: 8px;
+  font-size: 10px;
   color: #777780;
 }
 
@@ -244,7 +244,7 @@
 }
 
 .help {
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1.45;
   color: #777780;
   margin: 14px 2px;
@@ -254,7 +254,7 @@
   grid-column: 1 / -1;
   background: #f5f4f3;
   border-radius: 8px;
-  padding: 10px;
+  padding: 12px;
   display: grid;
   grid-template-columns: 1fr 28px 25px 28px;
   align-items: center;
@@ -262,7 +262,7 @@
 }
 
 .stepper > span {
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
 }
 
@@ -333,7 +333,7 @@
   background: transparent;
   border-radius: 17px;
   padding: 8px;
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .tabs .activeTab {
@@ -369,7 +369,7 @@
   border: 0;
   background: transparent;
   font-family: Georgia, serif;
-  font-size: 35px;
+  font-size: 37px;
   font-weight: 700;
   outline: 0;
 }
@@ -386,7 +386,7 @@
   border-radius: 18px;
   background: #fff;
   padding: 7px 10px;
-  font-size: 8px;
+  font-size: 13px;
 }
 
 .providers {
@@ -417,7 +417,7 @@
 }
 
 .providers b {
-  font-size: 10px;
+  font-size: 15px;
 }
 
 .providers strong {
@@ -437,7 +437,7 @@
 .phoneInput {
   display: grid;
   gap: 7px;
-  font-size: 9px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -462,7 +462,7 @@
   border-radius: 9px;
   display: grid;
   gap: 5px;
-  font-size: 8px;
+  font-size: 12px;
   line-height: 1.45;
 }
 
@@ -471,7 +471,7 @@
   background: #fff0f0;
   padding: 10px;
   border-radius: 8px;
-  font-size: 9px;
+  font-size: 13px;
 }
 
 .waitingIcon {
@@ -523,11 +523,11 @@
 }
 
 .pendingBox b {
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .pendingBox small {
-  font-size: 8px;
+  font-size: 10px;
   color: #777780;
 }
 
@@ -565,7 +565,7 @@
   color: #167557;
   border-radius: 16px;
   padding: 6px 9px;
-  font-size: 8px;
+  font-size: 10px;
   font-style: normal;
 }
 
@@ -615,7 +615,7 @@
 }
 
 .center p {
-  font-size: 11px;
+  font-size: 13px;
   color: #686870;
   line-height: 1.5;
 }

@@ -737,8 +737,8 @@ export default function CustomerBill({ token }: { token: string }) {
 function Top({ table }: { table: string }) {
   return (
     <header className={styles.top}>
-      <b>UZUNGUNI</b>
-      <small>{table} · City Park</small>
+      <b>UZUNGUNI CITY PARK</b>
+      <small>{table}</small>
     </header>
   );
 }
