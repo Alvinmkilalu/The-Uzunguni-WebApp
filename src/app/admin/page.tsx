@@ -13,7 +13,7 @@ export default async function AdminDashboard() {
   const sessionByTable = new Map(active.map(s => [s.table_id, s]));
   const waiterById = new Map((staff || []).map(s => [s.id, s.full_name]));
   return <StaffShell role="ADMIN" name={profile.full_name}>
-    <header className="ops-header"><div><p className="eyebrow">DODOMA BRANCH · LIVE OPERATIONS</p><h1>Administrator overview</h1><p>All table activity and employee access in one place.</p></div><Link className="staff-button" href="/admin/employees">+ Add employee</Link></header>
+    <header className="ops-header"><div><p className="eyebrow">ARUSHA BRANCH · LIVE OPERATIONS</p><h1>Administrator overview</h1><p>All table activity and employee access in one place.</p></div><Link className="staff-button" href="/admin/employees">+ Add employee</Link></header>
     <section className="metric-grid">
       <article><span>Active tables</span><b>{active.length}</b><small>of {tables?.length || 40}</small></article>
       <article><span>Waiter accounts</span><b>{(staff || []).filter(s => s.role === "WAITER" && s.is_active).length}</b><small>currently active</small></article>
