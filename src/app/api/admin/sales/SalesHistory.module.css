@@ -1,0 +1,710 @@
+.verifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #d9d9de;
+  border-radius: 999px;
+  background: #fcfbfa;
+  color: #0b0c07;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.filterPanel {
+  margin-bottom: 22px;
+  padding: 22px;
+  border: 1px solid #d9d9de;
+  border-radius: 18px;
+  background: #fcfbfa;
+  box-shadow:
+    0 8px 28px
+    rgba(11, 12, 7, 0.05);
+}
+
+.filterHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.filterHeading h2 {
+  margin: 3px 0 4px;
+  color: #0b0c07;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.filterHeading p {
+  margin: 0;
+  color: #5d5d67;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.overline {
+  margin: 0;
+  color: #830b0d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.quickLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.quickLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 39px;
+  padding: 0 14px;
+  border: 1px solid #d9d9de;
+  border-radius: 10px;
+  background: #fcfbfa;
+  color: #0b0c07;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.quickLink:hover {
+  border-color: #830b0d;
+  transform: translateY(-1px);
+}
+
+.quickLinkActive {
+  border-color: #830b0d;
+  background: #830b0d;
+  color: #fcfbfa;
+}
+
+.dateForm {
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 1fr)
+    minmax(180px, 1fr)
+    auto;
+  align-items: end;
+  gap: 12px;
+}
+
+.dateForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.dateForm label span {
+  color: #5d5d67;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dateForm input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #d9d9de;
+  border-radius: 10px;
+  outline: none;
+  background: #fcfbfa;
+  color: #0b0c07;
+  font: inherit;
+}
+
+.dateForm input:focus {
+  border-color: #830b0d;
+  box-shadow:
+    0 0 0 3px
+    rgba(131, 11, 13, 0.08);
+}
+
+.dateForm button {
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 10px;
+  background: #830b0d;
+  color: #fcfbfa;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.dateForm button:hover {
+  background: #6f080a;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.metricCard {
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid #d9d9de;
+  border-radius: 16px;
+  background: #fcfbfa;
+  box-shadow:
+    0 7px 22px
+    rgba(11, 12, 7, 0.045);
+}
+
+.metricCard span {
+  display: block;
+  margin-bottom: 11px;
+  color: #5d5d67;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.metricCard strong {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 5px;
+  color: #0b0c07;
+  font-size: clamp(
+    20px,
+    2vw,
+    29px
+  );
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metricCard small {
+  display: block;
+  color: #5d5d67;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.allTimeMetric {
+  border-color: #830b0d;
+  background:
+    linear-gradient(
+      135deg,
+      #830b0d,
+      #6f080a
+    );
+}
+
+.allTimeMetric span,
+.allTimeMetric strong,
+.allTimeMetric small {
+  color: #fcfbfa;
+}
+
+.insightGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.insightCard {
+  padding: 16px 18px;
+  border: 1px solid #d9d9de;
+  border-radius: 14px;
+  background: #f1f1f3;
+}
+
+.insightCard span {
+  display: block;
+  margin-bottom: 6px;
+  color: #5d5d67;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.insightCard b {
+  display: block;
+  margin-bottom: 4px;
+  color: #0b0c07;
+  font-size: 17px;
+}
+
+.insightCard small {
+  color: #5d5d67;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.analyticsGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(320px, 0.8fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.analyticsCard {
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid #d9d9de;
+  border-radius: 18px;
+  background: #fcfbfa;
+  box-shadow:
+    0 8px 28px
+    rgba(11, 12, 7, 0.05);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.cardHeader h2 {
+  margin: 4px 0 3px;
+  color: #0b0c07;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.cardHeader p:not(.overline) {
+  margin: 0;
+  color: #5d5d67;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cardHeader > small {
+  max-width: 190px;
+  color: #5d5d67;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.dailyChart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dayRow {
+  display: grid;
+  grid-template-columns:
+    minmax(115px, 160px)
+    minmax(100px, 1fr)
+    minmax(105px, auto);
+  align-items: center;
+  gap: 12px;
+}
+
+.dayLabel {
+  min-width: 0;
+}
+
+.dayLabel span {
+  display: block;
+  overflow: hidden;
+  color: #0b0c07;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dayLabel small {
+  color: #5d5d67;
+  font-size: 10px;
+}
+
+.dayRow > b {
+  color: #0b0c07;
+  font-size: 12px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.barTrack {
+  position: relative;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f1f1f3;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: inherit;
+  background: #830b0d;
+}
+
+.methodList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.methodRow {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #d9d9de;
+}
+
+.methodRow:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.methodTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.methodTop b {
+  display: block;
+  color: #0b0c07;
+  font-size: 14px;
+}
+
+.methodTop small {
+  display: block;
+  margin-top: 2px;
+  color: #5d5d67;
+  font-size: 11px;
+}
+
+.methodAmount {
+  text-align: right;
+}
+
+.shareTrack {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f1f1f3;
+}
+
+.shareFill {
+  height: 100%;
+  border-radius: inherit;
+  background: #0b0c07;
+}
+
+.transactionsCard {
+  margin-bottom: 22px;
+  padding: 21px;
+  border: 1px solid #d9d9de;
+  border-radius: 18px;
+  background: #fcfbfa;
+  box-shadow:
+    0 8px 28px
+    rgba(11, 12, 7, 0.05);
+}
+
+.resultCount {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border-radius: 8px;
+  background: #f1f1f3;
+  color: #5d5d67;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tableScroll {
+  overflow-x: auto;
+  border: 1px solid #d9d9de;
+  border-radius: 12px;
+}
+
+.salesTable {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  background: #fcfbfa;
+}
+
+.salesTable th {
+  padding: 12px 14px;
+  border-bottom: 1px solid #d9d9de;
+  background: #f1f1f3;
+  color: #5d5d67;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.salesTable th:last-child {
+  text-align: right;
+}
+
+.salesTable td {
+  padding: 14px;
+  border-bottom: 1px solid #e8e8eb;
+  color: #0b0c07;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.salesTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.salesTable tbody tr:hover {
+  background: #fcf8f8;
+}
+
+.salesTable td b {
+  display: block;
+  font-size: 12px;
+}
+
+.salesTable td small {
+  display: block;
+  margin-top: 3px;
+  color: #5d5d67;
+  font-size: 9px;
+}
+
+.tableLink {
+  color: #830b0d;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.tableLink:hover {
+  text-decoration: underline;
+}
+
+.reference {
+  display: inline-block;
+  max-width: 190px;
+  overflow: hidden;
+  color: #5d5d67;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.paidChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid #d9d9de;
+  border-radius: 999px;
+  background: #f1f1f3;
+  color: #0b0c07;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.amountCell {
+  color: #0b0c07;
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.emptyState {
+  padding: 34px 20px;
+  border: 1px dashed #d9d9de;
+  border-radius: 12px;
+  background: #f1f1f3;
+  color: #5d5d67;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  color: #5d5d67;
+  font-size: 12px;
+}
+
+.paginationButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.paginationButtons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid #d9d9de;
+  border-radius: 9px;
+  background: #fcfbfa;
+  color: #0b0c07;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.paginationButtons a:hover {
+  border-color: #830b0d;
+  color: #830b0d;
+}
+
+.reportingNote {
+  padding: 15px 17px;
+  border-left: 4px solid #830b0d;
+  border-radius: 8px;
+  background: #f4e7e7;
+  color: #0b0c07;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.reportingNote code {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: #fcfbfa;
+  color: #830b0d;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 1150px) {
+  .metricsGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .analyticsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .verifiedBadge {
+    display: none;
+  }
+
+  .filterPanel {
+    padding: 17px;
+  }
+
+  .dateForm {
+    grid-template-columns: 1fr;
+  }
+
+  .metricsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .insightGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .analyticsCard,
+  .transactionsCard {
+    padding: 16px;
+  }
+
+  .dayRow {
+    grid-template-columns:
+      minmax(100px, 130px)
+      1fr;
+  }
+
+  .dayRow > b {
+    grid-column: 2;
+  }
+
+  .pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quickLinks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quickLink {
+    width: 100%;
+  }
+
+  .filterHeading h2 {
+    font-size: 19px;
+  }
+
+  .dayRow {
+    grid-template-columns: 1fr;
+  }
+
+  .dayRow > b {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  .methodTop {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .methodAmount {
+    text-align: left;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .cardHeader > small {
+    max-width: none;
+    text-align: left;
+  }
+}
